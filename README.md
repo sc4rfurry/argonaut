@@ -55,7 +55,7 @@
 Install ArgøNaut using pip:
 
 ```bash
-pip install argonaut
+pip install argonautCli
 ```
 
 ---

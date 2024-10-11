@@ -23,19 +23,14 @@ class Argument:
             self.default = None
 
     def validate(self, value: Any) -> Any:
-        print(f"Validating argument: {self.name}, value: {value}")  # Debug print
         if self.type:
             try:
                 value = self.type(value)
             except ValueError as e:
-                print(f"Type validation failed for {self.name}")  # Debug print
                 raise ArgonautTypeError(self.name, str(self.type), type(value).__name__)
 
         if self.choices is not None:
             if value not in self.choices:
-                print(
-                    f"Choice validation failed for {self.name}: {value} not in {self.choices}"
-                )  # Debug print
                 raise ArgonautValidationError(
                     self.name, f"Value must be one of {self.choices}"
                 )
@@ -43,17 +38,12 @@ class Argument:
         if self.validator:
             try:
                 if not self.validator(value):
-                    print(f"Custom validation failed for {self.name}")  # Debug print
                     raise ArgonautValidationError(
                         self.name, f"Failed custom validation for value: {value}"
                     )
             except Exception as e:
-                print(
-                    f"Custom validation raised an exception for {self.name}: {str(e)}"
-                )  # Debug print
                 raise ArgonautValidationError(self.name, str(e))
 
-        print(f"Validation successful for {self.name}")  # Debug print
         return value
 
     def get_default(self) -> Any:

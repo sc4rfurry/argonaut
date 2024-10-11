@@ -199,7 +199,7 @@
                 <div class="card cyberpunk-card">
                     <div class="card-body">
                         <h5 class="card-title">Install via pip</h5>
-                        <pre><code class="language-bash">pip install argonaut</code></pre>
+                        <pre><code class="language-bash">pip install argonautCli</code></pre>
                         <button class="btn btn-primary mt-2 copy-btn" data-clipboard-text="pip install argonaut">
                             <i class="far fa-copy"></i> Copy
                         </button>
@@ -215,7 +215,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Basic Usage</h5>
                         <pre><code class="language-python">
-from argonaut import Argonaut
+from argonautCli import Argonaut
 
 parser = Argonaut(description="My awesome CLI tool")
 parser.add("--name", help="Your name", default="Anonymous")
@@ -299,7 +299,7 @@ if name == 'Anonymous' and age == 0:
                                 </ul>
                                 <h6>Examples:</h6>
                                 <pre><code class="language-python">
-from argonaut import Argonaut
+from argonautCli import Argonaut
 
 parser = Argonaut(description="My awesome CLI tool")
 parser.add("--name", help="Your name", default="Anonymous")
@@ -400,7 +400,7 @@ print(f"Hello, {args['name']}! You are {args['age']} years old.")
                             <div class="card-body">
                                 <h5 class="card-title">Custom Validators</h5>
                                 <pre><code class="language-python">
-from argonaut import Argonaut, custom_validator
+from argonautCli import Argonaut, custom_validator
 
 def validate_positive(value):
     if value <= 0:
@@ -462,7 +462,7 @@ group.add("--quiet", action="store_true", help="Decrease verbosity")
                     <div class="card-body">
                         <h5 class="card-title">File Processing CLI</h5>
                         <pre><code class="language-python">
-from argonaut import Argonaut
+from argonautCli import Argonaut
 
 parser = Argonaut(description="File processing tool")
 parser.add("input_file", help="Path to the input file")
@@ -494,7 +494,7 @@ if args['output']:
                         <h5 class="card-title">Creating and Using Plugins</h5>
                         <pre><code class="language-python">
 # my_plugin.py
-from argonaut import Plugin, PluginMetadata, PluginContext
+from argonautCli import Plugin, PluginMetadata, PluginContext
 
 class MyPlugin(Plugin):
     @property
@@ -515,7 +515,7 @@ class MyPlugin(Plugin):
         return "Hello from MyPlugin!"
 
 # main.py
-from argonaut import Argonaut
+from argonautCli import Argonaut
 
 parser = Argonaut()
 parser.load_plugin("path.to.my_plugin")
@@ -539,7 +539,7 @@ print(result)  # Output: Hello from MyPlugin!
                         <ol>
                             <li>Clone the repository:
                                 <pre><code class="language-bash">git clone https://github.com/sc4rfurry/argonaut.git
-cd argon4ut</code></pre>
+cd argonaut</code></pre>
                             </li>
                             <li>Create a virtual environment:
                                 <pre><code class="language-bash">python -m venv venv

@@ -60,7 +60,7 @@ class Plugin(ABC):
 
     @property
     def required_dependencies(self) -> List[str]:
-        return ["argonaut"]
+        return ["argonautCli"]
 
     @property
     def dependencies(self) -> List[str]:
