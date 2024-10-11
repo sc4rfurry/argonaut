@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArgøNaut Documentation</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&family=Fira+Code&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@4.19.0/css/xterm.css" />
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/xterm@4.19.0/lib/xterm.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit@0.5.0/lib/xterm-addon-fit.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-bash.min.js"></script>
+    <script src="script.js"></script>
+</head>
+
+<body class="cyberpunk-theme d-flex flex-column min-vh-100">
+    <div id="preloader" class="preloader">
+        <div id="cyber-scene"></div>
+        <div class="loading-text">
+            <h2>Initializing ArgøNaut Security Protocol</h2>
+            <p id="loading-status">Establishing secure connection...</p>
+        </div>
+    </div>
+    <header style="display: none;">
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top cyberpunk-navbar">
+            <div class="container-fluid">
+                <a class="navbar-brand cyberpunk-logo" href="#">
+                    <i class="fas fa-microchip me-2"></i>ArgøNaut
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#home">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#features"
+                                data-tooltip="Explore ArgøNaut's powerful features">Features</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#installation"
+                                data-tooltip="Learn how to install ArgøNaut">Installation</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#quickstart">Quick Start</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#api">API</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#advanced">Advanced</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#examples">Examples</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#plugins">Plugins</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#development">Development</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#faq">FAQ</a>
+                        </li>
+                    </ul>
+                    <div class="d-flex">
+                        <button id="darkModeToggle" class="btn btn-outline-light ms-2">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    <!-- Wrap the scrollable content -->
+    <div class="scrollable-content">
+        <main class="container mt-5 pt-5 flex-grow-1" style="display: none;">
+            <div class="logo-container mb-5">
+                <div class="logo-3d">
+                    <img src="Argonaut-Logo.png" alt="Argonaut Logo" class="img-fluid logo-main">
+                </div>
+            </div>
+            <section id="home" class="section-block animate__animated animate__fadeIn text-center">
+                <h1 class="glitch" data-text="ArgøNaut">ArgøNaut<span aria-hidden="true">ArgøNaut</span><span
+                        aria-hidden="true">ArgøNaut</span></h1>
+                <p class="lead neon">A powerful and flexible argument parsing library for Python.</p>
+                <div class="mt-3">
+                    <a href="#quickstart" class="btn btn-primary btn-lg">
+                        <i class="fas fa-rocket me-2"></i>Get Started
+                    </a>
+                    <div class="button-row">
+                        <a href="https://github.com/sc4rfurry/argonaut" class="btn btn-outline-secondary"
+                            target="_blank">
+                            <i class="fab fa-github me-2"></i>Star on GitHub
+                        </a>
+                        <!-- <div class="btn-group">
+                            <button type="button" class="btn btn-outline-primary dropdown-toggle"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Share
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#" data-share="twitter"><i
+                                            class="fab fa-twitter"></i> Twitter</a></li>
+                                <li><a class="dropdown-item" href="#" data-share="linkedin"><i
+                                            class="fab fa-linkedin"></i> LinkedIn</a></li>
+                                <li><a class="dropdown-item" href="#" data-share="facebook"><i
+                                            class="fab fa-facebook"></i> Facebook</a></li>
+                            </ul>
+                        </div> -->
+                    </div>
+                </div>
+            </section>
+
+            <div class="cyberpunk-divider my-5"></div>
+
+            <section id="features" class="section-block">
+                <h2 class="section-title neon">Features</h2>
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 cyberpunk-card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-terminal"></i> Intuitive API</h5>
+                                <p class="card-text">ArgøNaut provides an intuitive API similar to argparse, making it
+                                    easy
+                                    for developers familiar with Python's standard library to adopt.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 cyberpunk-card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-code-branch"></i> Subcommands</h5>
+                                <p class="card-text">Create complex CLI applications with nested subcommands, allowing
+                                    for a
+                                    more organized and scalable command structure.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 cyberpunk-card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-check-double"></i> Custom Validators</h5>
+                                <p class="card-text">Implement custom validation logic for your arguments to ensure data
+                                    integrity and improve user experience.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 cyberpunk-card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-plug"></i> Plugin System</h5>
+                                <p class="card-text">Extend ArgøNaut's functionality with a powerful and flexible plugin
+                                    system, allowing for modular development.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 cyberpunk-card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-shield-alt"></i> Type Safety</h5>
+                                <p class="card-text">Benefit from automatic type conversion and validation for your
+                                    arguments, reducing the risk of runtime errors.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 cyberpunk-card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-terminal"></i> Shell Completion</h5>
+                                <p class="card-text">Generate shell completion scripts for bash, zsh, and fish to
+                                    enhance
+                                    the command-line experience.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="cyberpunk-divider my-5"></div>
+
+            <section id="installation" class="section-block">
+                <h2 class="section-title neon">Installation</h2>
+                <div class="card cyberpunk-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Install via pip</h5>
+                        <pre><code class="language-bash">pip install argonaut</code></pre>
+                        <button class="btn btn-primary mt-2 copy-btn" data-clipboard-text="pip install argonaut">
+                            <i class="far fa-copy"></i> Copy
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <div class="cyberpunk-divider my-5"></div>
+
+            <section id="quickstart" class="section-block">
+                <h2 class="section-title neon">Quick Start</h2>
+                <div class="card cyberpunk-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Basic Usage</h5>
+                        <pre><code class="language-python">
+from argonaut import Argonaut
+
+parser = Argonaut(description="My awesome CLI tool")
+parser.add("--name", help="Your name", default="Anonymous")
+parser.add("--age", type=int, help="Your age", default=0)
+
+args = parser.parse()
+name = args.get('name', 'Anonymous')
+age = args.get('age', 0)
+
+print(f"Hello, {name}! You are {age} years old.")
+
+# Optionally, you can add this to show how to use the CLI:
+if name == 'Anonymous' and age == 0:
+    print("\nTry running the script with arguments, like this:")
+    print("python test.py --name John --age 30")
+                        </code></pre>
+                        <button class="btn btn-primary mt-2 copy-btn" data-clipboard-target="#quickstart-code">
+                            <i class="far fa-copy"></i> Copy
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <div class="cyberpunk-divider my-5"></div>
+
+            <section id="api" class="section-block">
+                <h2 class="section-title neon">API Reference</h2>
+                <div class="accordion" id="apiAccordion">
+                    <div class="accordion-item cyberpunk-card">
+                        <h2 class="accordion-header" id="headingArgonaut">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseArgonaut" aria-expanded="true"
+                                aria-controls="collapseArgonaut">
+                                Argonaut Class
+                            </button>
+                        </h2>
+                        <div id="collapseArgonaut" class="accordion-collapse collapse show"
+                            aria-labelledby="headingArgonaut" data-bs-parent="#apiAccordion">
+                            <div class="accordion-body">
+                                <p>The main class for creating a command-line interface.</p>
+                                <h6>Constructor:</h6>
+                                <ul>
+                                    <li><code>__init__(description: str, epilog: str = "", custom_help_formatter: Optional[Callable] = None)</code>:
+                                        Initialize the Argonaut parser.</li>
+                                </ul>
+                                <h6>Methods:</h6>
+                                <ul>
+                                    <li><code>add(*names, **kwargs) -> Argument</code>: Add a new argument to the
+                                        parser.
+                                    </li>
+                                    <li><code>add_subcommand(name: str, **kwargs) -> SubCommand</code>: Add a new
+                                        subcommand
+                                        to the parser.</li>
+                                    <li><code>parse(args: Optional[List[str]] = None) -> Dict[str, Any]</code>: Parse
+                                        command-line arguments.</li>
+                                    <li><code>add_group(title: str, description: str = "") -> ArgumentGroup</code>: Add
+                                        a
+                                        new argument group.</li>
+                                    <li><code>add_mutually_exclusive_group() -> MutuallyExclusiveGroup</code>: Add a
+                                        mutually exclusive group of arguments.</li>
+                                    <li><code>add_global_argument(*names, **kwargs) -> Argument</code>: Add a global
+                                        argument that applies to all subcommands.</li>
+                                    <li><code>interactive() -> Dict[str, Any]</code>: Start an interactive mode for
+                                        argument
+                                        input.</li>
+                                    <li><code>generate_help() -> str</code>: Generate a help message for the parser.
+                                    </li>
+                                    <li><code>print_help()</code>: Print the help message to the console.</li>
+                                    <li><code>load_plugin(module_path: str)</code>: Load a plugin from the specified
+                                        module
+                                        path.</li>
+                                    <li><code>unload_plugin(name: str)</code>: Unload a previously loaded plugin.</li>
+                                    <li><code>execute_plugin(name: str, args: Dict[str, Any])</code>: Execute a loaded
+                                        plugin with the given arguments.</li>
+                                    <li><code>set_log_level(level: LogLevel)</code>: Set the logging level for the
+                                        parser.
+                                    </li>
+                                    <li><code>add_completion(shell: str, directory: Optional[str] = None)</code>:
+                                        Generate
+                                        shell completion scripts.</li>
+                                </ul>
+                                <h6>Examples:</h6>
+                                <pre><code class="language-python">
+from argonaut import Argonaut
+
+parser = Argonaut(description="My awesome CLI tool")
+parser.add("--name", help="Your name", default="Anonymous")
+parser.add("--age", type=int, help="Your age", default=0)
+
+args = parser.parse()
+print(f"Hello, {args['name']}! You are {args['age']} years old.")
+                                </code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item cyberpunk-card">
+                        <h2 class="accordion-header" id="headingArgument">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseArgument" aria-expanded="false"
+                                aria-controls="collapseArgument">
+                                Argument Class
+                            </button>
+                        </h2>
+                        <div id="collapseArgument" class="accordion-collapse collapse" aria-labelledby="headingArgument"
+                            data-bs-parent="#apiAccordion">
+                            <div class="accordion-body">
+                                <p>Represents a single argument in the command-line interface.</p>
+                                <h6>Constructor:</h6>
+                                <ul>
+                                    <li><code>__init__(*names: str, **kwargs)</code>: Initialize an Argument object.
+                                    </li>
+                                </ul>
+                                <h6>Methods:</h6>
+                                <ul>
+                                    <li><code>validate(value: Any) -> Any</code>: Validate the argument value.</li>
+                                    <li><code>get_default() -> Any</code>: Get the default value for the argument.</li>
+                                    <li><code>handle_action(value: Any) -> Any</code>: Handle the action for the
+                                        argument.
+                                    </li>
+                                    <li><code>with_default(default_value: Any) -> Argument</code>: Create a new Argument
+                                        with a different default value.</li>
+                                    <li><code>with_type(new_type: Callable) -> Argument</code>: Create a new Argument
+                                        with a
+                                        different type.</li>
+                                    <li><code>with_validator(validator: Callable[[Any], bool]) -> Argument</code>:
+                                        Create a
+                                        new Argument with an additional validator.</li>
+                                    <li><code>set_custom_action(func: Callable[[Any], Any]) -> Argument</code>: Set a
+                                        custom
+                                        action for the argument.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item cyberpunk-card">
+                        <h2 class="accordion-header" id="headingSubCommand">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseSubCommand" aria-expanded="false"
+                                aria-controls="collapseSubCommand">
+                                SubCommand Class
+                            </button>
+                        </h2>
+                        <div id="collapseSubCommand" class="accordion-collapse collapse"
+                            aria-labelledby="headingSubCommand" data-bs-parent="#apiAccordion">
+                            <div class="accordion-body">
+                                <p>Represents a subcommand in the command-line interface.</p>
+                                <h6>Constructor:</h6>
+                                <ul>
+                                    <li><code>__init__(name: str, description: str = "", **kwargs)</code>: Initialize a
+                                        SubCommand object.</li>
+                                </ul>
+                                <h6>Methods:</h6>
+                                <ul>
+                                    <li><code>add(*names, **kwargs) -> Argument</code>: Add a new argument to the
+                                        subcommand.</li>
+                                    <li><code>add_group(title: str, description: str = "") -> ArgumentGroup</code>: Add
+                                        a
+                                        new argument group to the subcommand.</li>
+                                    <li><code>add_exclusive_group() -> MutuallyExclusiveGroup</code>: Add a mutually
+                                        exclusive group to the subcommand.</li>
+                                    <li><code>add_subcommand(name: str, **kwargs) -> SubCommand</code>: Add a nested
+                                        subcommand.</li>
+                                    <li><code>parse_arguments(args: List[str]) -> Dict[str, Any]</code>: Parse arguments
+                                        for
+                                        the subcommand.</li>
+                                    <li><code>generate_help() -> str</code>: Generate a help message for the subcommand.
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="cyberpunk-divider my-5"></div>
+
+            <section id="advanced" class="section-block">
+                <h2 class="section-title neon">Advanced Usage</h2>
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100 cyberpunk-card">
+                            <div class="card-body">
+                                <h5 class="card-title">Custom Validators</h5>
+                                <pre><code class="language-python">
+from argonaut import Argonaut, custom_validator
+
+def validate_positive(value):
+    if value <= 0:
+        raise ValueError("Value must be positive")
+    return value
+
+parser = Argonaut()
+parser.add("--count", type=int, validator=validate_positive)
+                                </code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100 cyberpunk-card">
+                            <div class="card-body">
+                                <h5 class="card-title">Subcommands</h5>
+                                <pre><code class="language-python">
+parser = Argonaut()
+subcommand = parser.add_subcommand("run")
+subcommand.add("--input", help="Input file")
+                                </code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100 cyberpunk-card">
+                            <div class="card-body">
+                                <h5 class="card-title">Argument Groups</h5>
+                                <pre><code class="language-python">
+parser = Argonaut()
+group = parser.add_group("Input Options")
+group.add("--input", help="Input file")
+group.add("--format", choices=["json", "yaml"], help="Input format")
+                                </code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100 cyberpunk-card">
+                            <div class="card-body">
+                                <h5 class="card-title">Mutually Exclusive Arguments</h5>
+                                <pre><code class="language-python">
+parser = Argonaut()
+group = parser.add_mutually_exclusive_group()
+group.add("--verbose", action="store_true", help="Increase verbosity")
+group.add("--quiet", action="store_true", help="Decrease verbosity")
+                                </code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="cyberpunk-divider my-5"></div>
+
+            <section id="examples" class="section-block">
+                <h2 class="section-title neon">Examples</h2>
+                <div class="card cyberpunk-card">
+                    <div class="card-body">
+                        <h5 class="card-title">File Processing CLI</h5>
+                        <pre><code class="language-python">
+from argonaut import Argonaut
+
+parser = Argonaut(description="File processing tool")
+parser.add("input_file", help="Path to the input file")
+parser.add("--output", help="Path to the output file")
+parser.add("--verbose", action="store_true", help="Enable verbose output")
+
+args = parser.parse()
+
+# Your file processing logic here
+print(f"Processing {args['input_file']}...")
+if args['verbose']:
+    print("Verbose mode enabled")
+if args['output']:
+    print(f"Output will be saved to {args['output']}")
+                        </code></pre>
+                        <button class="btn btn-primary mt-2 copy-btn" data-clipboard-target="#example-code">
+                            <i class="far fa-copy"></i> Copy
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <div class="cyberpunk-divider my-5"></div>
+
+            <section id="plugins" class="section-block">
+                <h2 class="section-title neon">Plugins</h2>
+                <div class="card cyberpunk-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Creating and Using Plugins</h5>
+                        <pre><code class="language-python">
+# my_plugin.py
+from argonaut import Plugin, PluginMetadata, PluginContext
+
+class MyPlugin(Plugin):
+    @property
+    def metadata(self) -> PluginMetadata:
+        return PluginMetadata(
+            name="my_plugin",
+            version="1.0.0",
+            description="A sample plugin for ArgøNaut",
+            author="Your Name",
+            website="https://example.com",
+            tags=["sample", "demo"]
+        )
+
+    def initialize(self, context: PluginContext):
+        self.context = context
+
+    def execute(self, args: Dict[str, Any]) -> Any:
+        return "Hello from MyPlugin!"
+
+# main.py
+from argonaut import Argonaut
+
+parser = Argonaut()
+parser.load_plugin("path.to.my_plugin")
+result = parser.execute_plugin("my_plugin", {})
+print(result)  # Output: Hello from MyPlugin!
+                        </code></pre>
+                        <button class="btn btn-primary mt-2 copy-btn" data-clipboard-target="#plugin-example">
+                            <i class="far fa-copy"></i> Copy
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <div class="cyberpunk-divider my-5"></div>
+
+            <section id="development" class="section-block">
+                <h2 class="section-title neon">Development</h2>
+                <div class="card cyberpunk-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Setting Up the Development Environment</h5>
+                        <ol>
+                            <li>Clone the repository:
+                                <pre><code class="language-bash">git clone https://github.com/sc4rfurry/argonaut.git
+cd argon4ut</code></pre>
+                            </li>
+                            <li>Create a virtual environment:
+                                <pre><code class="language-bash">python -m venv venv
+source venv/bin/activate  
+# On Windows, use 
+`venv\Scripts\activate`</code></pre>
+                            </li>
+                            <li>Install development dependencies:
+                                <pre><code class="language-bash">pip install -r requirements.txt</code></pre>
+                            </li>
+                            <li>Run tests:
+                                <pre><code class="language-bash">pytest</code></pre>
+                            </li>
+                        </ol>
+                        <h5 class="card-title mt-4">Contributing</h5>
+                        <p>We welcome contributions to ArgøNaut! Please follow these steps to contribute:</p>
+                        <ol>
+                            <li>Fork the repository on GitHub.</li>
+                            <li>Create a new branch for your feature or bug fix.</li>
+                            <li>Write tests for your changes.</li>
+                            <li>Implement your changes.</li>
+                            <li>Run the tests to ensure everything is working.</li>
+                            <li>Submit a pull request with a clear description of your changes.</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+            <div class="cyberpunk-divider my-5"></div>
+            <section id="faq" class="section-block">
+                <h2 class="section-title neon">FAQ</h2>
+                <div class="accordion" id="faqAccordion">
+                    <div class="accordion-item cyberpunk-card">
+                        <h2 class="accordion-header" id="faqHeadingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                                How does ArgøNaut compare to argparse?
+                            </button>
+                        </h2>
+                        <div id="faqCollapseOne" class="accordion-collapse collapse show"
+                            aria-labelledby="faqHeadingOne" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                ArgøNaut builds upon the familiar API of argparse while adding advanced features like
+                                custom
+                                validators, a plugin system, and improved type handling. It aims to provide a more
+                                powerful
+                                and flexible argument parsing experience while maintaining ease of use.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="interactive-cli" class="section-block">
+                <h2 class="section-title neon">Interactive CLI</h2>
+                <div id="terminal" class="interactive-terminal"></div>
+            </section>
+        </main>
+
+        <footer class="bg-dark text-light py-3 mt-5">
+            <div class="container">
+                <p>&copy; 2024 ArgøNaut. All rights reserved.</p>
+                <a href="https://github.com/sc4rfurry/argonaut" target="_blank" class="text-light">
+                    <i class="fab fa-github me-2"></i>GitHub
+                </a>
+            </div>
+        </footer>
+    </div>
+
+    <div id="particles-js" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js"></script>
+</body>
+
+</html>

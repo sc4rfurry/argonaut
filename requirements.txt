@@ -1,0 +1,18 @@
+# Core dependencies
+pyyaml
+
+# Development dependencies
+black
+isort
+flake8
+mypy
+pytest
+pytest-cov
+tox
+
+# Documentation
+Sphinx
+sphinx-rtd-theme
+
+# Type stubs for better type checking
+types-PyYAML
