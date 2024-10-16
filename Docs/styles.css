@@ -926,3 +926,76 @@ footer a:hover {
 .scrollable-content {
     -ms-overflow-style: none;
 }
+
+/* Add new styles for the added features */
+.feature-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+/* Enhance the appearance of code blocks */
+pre {
+    background-color: var(--card-bg);
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    overflow-x: auto;
+    position: relative;
+}
+
+pre::before {
+    content: attr(data-language);
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0.25rem 0.5rem;
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    font-size: 0.8rem;
+    border-bottom-left-radius: 5px;
+}
+
+/* Improve FAQ section styling */
+#faqAccordion .accordion-button {
+    background-color: var(--card-bg);
+    color: var(--primary-color);
+    border: none;
+}
+
+#faqAccordion .accordion-button:not(.collapsed) {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+}
+
+#faqAccordion .accordion-body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+/* Enhance the appearance of the custom scrollbar */
+.custom-scrollbar {
+    background-color: var(--primary-color);
+    opacity: 0.5;
+    transition: opacity 0.3s ease, width 0.3s ease;
+}
+
+.custom-scrollbar:hover {
+    opacity: 1;
+    width: 10px;
+}
+
+/* Add styles for async support highlight */
+.async-support {
+    background-color: var(--card-bg);
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
+    padding: 1rem;
+    margin-top: 2rem;
+}
+
+.async-support h4 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}

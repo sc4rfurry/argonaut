@@ -149,7 +149,14 @@ class FileAnalyzerPlugin(Plugin):
                 )
 
         results = await asyncio.gather(*tasks)
-        return "\n\n".join(filter(None, results))
+        # Flatten the results list and join into a single string
+        flattened_results = []
+        for result in results:
+            if isinstance(result, list):
+                flattened_results.extend(result)
+            else:
+                flattened_results.append(result)
+        return "\n\n".join(filter(None, flattened_results))
 
     def process_file(self, file_path: Path, args: Dict[str, Any]) -> str:
         if not self._should_analyze_file(file_path, args):
@@ -199,7 +206,8 @@ class FileAnalyzerPlugin(Plugin):
     async def process_directory_async(
         self, dir_path: Path, args: Dict[str, Any]
     ) -> List[str]:
-        return await asyncio.to_thread(self.process_directory, dir_path, args)
+        results = await asyncio.to_thread(self.process_directory, dir_path, args)
+        return [result for result in results if isinstance(result, str)]
 
     def count_elements(self, content: str, element: str) -> str:
         if element == "words":

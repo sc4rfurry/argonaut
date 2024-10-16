@@ -189,6 +189,78 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 cyberpunk-card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-cogs"></i> Advanced Argument Handling</h5>
+                                <p class="card-text">Support for positional arguments, optional arguments, flags, and
+                                    complex argument types. Implement custom actions and validators for fine-grained
+                                    control over argument behavior.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 cyberpunk-card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-shield-alt"></i> Input Sanitization</h5>
+                                <p class="card-text">Built-in input sanitization to protect against malicious input,
+                                    including protection against shell injection and directory traversal attacks.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 cyberpunk-card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-bolt"></i> Asynchronous Support</h5>
+                                <p class="card-text">Integration with asyncio for asynchronous argument parsing and
+                                    plugin execution, enabling efficient handling of I/O-bound operations.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 cyberpunk-card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-palette"></i> Customizable Output</h5>
+                                <p class="card-text">Colored output and progress bars for better readability and user
+                                    feedback.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 cyberpunk-card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-globe"></i> Cross-Platform Compatibility</h5>
+                                <p class="card-text">Seamless operation across Windows, macOS, and Linux environments.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 cyberpunk-card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-cogs"></i> Configuration File Support</h5>
+                                <p class="card-text">Load arguments from YAML or JSON configuration files for flexible
+                                    setup.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 cyberpunk-card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-file-alt"></i> Automatic Man Page Generation
+                                </h5>
+                                <p class="card-text">Generate man pages automatically for your CLI tool.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 cyberpunk-card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-bolt"></i> Asynchronous Support</h5>
+                                <p class="card-text">Use ArgøNaut with asyncio for asynchronous applications.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -218,19 +290,11 @@
 from argonaut import Argonaut
 
 parser = Argonaut(description="My awesome CLI tool")
-parser.add("--name", help="Your name", default="Anonymous")
-parser.add("--age", type=int, help="Your age", default=0)
+parser.add("--name", help="Your name")
+parser.add("--age", type=int, help="Your age")
 
 args = parser.parse()
-name = args.get('name', 'Anonymous')
-age = args.get('age', 0)
-
-print(f"Hello, {name}! You are {age} years old.")
-
-# Optionally, you can add this to show how to use the CLI:
-if name == 'Anonymous' and age == 0:
-    print("\nTry running the script with arguments, like this:")
-    print("python test.py --name John --age 30")
+print(f"Hello, {args['name']}! You are {args['age']} years old.")
                         </code></pre>
                         <button class="btn btn-primary mt-2 copy-btn" data-clipboard-target="#quickstart-code">
                             <i class="far fa-copy"></i> Copy
@@ -241,7 +305,7 @@ if name == 'Anonymous' and age == 0:
 
             <div class="cyberpunk-divider my-5"></div>
 
-            <section id="api" class="section-block">
+            <section id="api-reference" class="section-block">
                 <h2 class="section-title neon">API Reference</h2>
                 <div class="accordion" id="apiAccordion">
                     <div class="accordion-item cyberpunk-card">
@@ -261,53 +325,23 @@ if name == 'Anonymous' and age == 0:
                                     <li><code>__init__(description: str, epilog: str = "", custom_help_formatter: Optional[Callable] = None)</code>:
                                         Initialize the Argonaut parser.</li>
                                 </ul>
-                                <h6>Methods:</h6>
+                                <h6>Key Methods:</h6>
                                 <ul>
                                     <li><code>add(*names, **kwargs) -> Argument</code>: Add a new argument to the
-                                        parser.
-                                    </li>
+                                        parser.</li>
                                     <li><code>add_subcommand(name: str, **kwargs) -> SubCommand</code>: Add a new
-                                        subcommand
-                                        to the parser.</li>
+                                        subcommand to the parser.</li>
                                     <li><code>parse(args: Optional[List[str]] = None) -> Dict[str, Any]</code>: Parse
                                         command-line arguments.</li>
-                                    <li><code>add_group(title: str, description: str = "") -> ArgumentGroup</code>: Add
-                                        a
-                                        new argument group.</li>
-                                    <li><code>add_mutually_exclusive_group() -> MutuallyExclusiveGroup</code>: Add a
-                                        mutually exclusive group of arguments.</li>
-                                    <li><code>add_global_argument(*names, **kwargs) -> Argument</code>: Add a global
-                                        argument that applies to all subcommands.</li>
-                                    <li><code>interactive() -> Dict[str, Any]</code>: Start an interactive mode for
-                                        argument
-                                        input.</li>
-                                    <li><code>generate_help() -> str</code>: Generate a help message for the parser.
-                                    </li>
-                                    <li><code>print_help()</code>: Print the help message to the console.</li>
+                                    <li><code>parse_async(args: Optional[List[str]] = None, ignore_unknown: bool = False) -> Dict[str, Any]</code>:
+                                        Asynchronously parse command-line arguments.</li>
                                     <li><code>load_plugin(module_path: str)</code>: Load a plugin from the specified
-                                        module
-                                        path.</li>
-                                    <li><code>unload_plugin(name: str)</code>: Unload a previously loaded plugin.</li>
+                                        module path.</li>
                                     <li><code>execute_plugin(name: str, args: Dict[str, Any])</code>: Execute a loaded
                                         plugin with the given arguments.</li>
-                                    <li><code>set_log_level(level: LogLevel)</code>: Set the logging level for the
-                                        parser.
-                                    </li>
-                                    <li><code>add_completion(shell: str, directory: Optional[str] = None)</code>:
-                                        Generate
-                                        shell completion scripts.</li>
+                                    <li><code>execute_plugin_async(name: str, args: Dict[str, Any]) -> Any</code>:
+                                        Asynchronously execute a loaded plugin.</li>
                                 </ul>
-                                <h6>Examples:</h6>
-                                <pre><code class="language-python">
-from argonaut import Argonaut
-
-parser = Argonaut(description="My awesome CLI tool")
-parser.add("--name", help="Your name", default="Anonymous")
-parser.add("--age", type=int, help="Your age", default=0)
-
-args = parser.parse()
-print(f"Hello, {args['name']}! You are {args['age']} years old.")
-                                </code></pre>
                             </div>
                         </div>
                     </div>
@@ -392,7 +426,7 @@ print(f"Hello, {args['name']}! You are {args['age']} years old.")
 
             <div class="cyberpunk-divider my-5"></div>
 
-            <section id="advanced" class="section-block">
+            <section id="advanced-usage" class="section-block">
                 <h2 class="section-title neon">Advanced Usage</h2>
                 <div class="row">
                     <div class="col-md-6 mb-4">
@@ -400,8 +434,9 @@ print(f"Hello, {args['name']}! You are {args['age']} years old.")
                             <div class="card-body">
                                 <h5 class="card-title">Custom Validators</h5>
                                 <pre><code class="language-python">
-from argonaut import Argonaut, custom_validator
+from argonautCli import Argonaut, custom_validator
 
+@custom_validator
 def validate_positive(value):
     if value <= 0:
         raise ValueError("Value must be positive")
@@ -409,6 +444,26 @@ def validate_positive(value):
 
 parser = Argonaut()
 parser.add("--count", type=int, validator=validate_positive)
+                                </code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100 cyberpunk-card">
+                            <div class="card-body">
+                                <h5 class="card-title">Asynchronous Plugin Execution</h5>
+                                <pre><code class="language-python">
+import asyncio
+from argonautCli import Argonaut
+
+async def main():
+    parser = Argonaut()
+    parser.load_plugin("my_async_plugin")
+    args = await parser.parse_async()
+    result = await parser.execute_plugin_async("my_async_plugin", args)
+    print(result)
+
+asyncio.run(main())
                                 </code></pre>
                             </div>
                         </div>
@@ -451,6 +506,96 @@ group.add("--quiet", action="store_true", help="Decrease verbosity")
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100 cyberpunk-card">
+                            <div class="card-body">
+                                <h5 class="card-title">Environment Variables</h5>
+                                <pre><code class="language-python">
+from argonautCli import Argonaut, env_var
+
+parser = Argonaut()
+parser.add("--api-key", env_var="API_KEY", help="API key (can be set via API_KEY env var)")
+                                </code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100 cyberpunk-card">
+                            <div class="card-body">
+                                <h5 class="card-title">Custom Actions</h5>
+                                <pre><code class="language-python">
+from argonautCli import Argonaut, custom_action
+
+def uppercase_action(value):
+    return value.upper()
+
+parser = Argonaut()
+parser.add("--text", action=uppercase_action, help="Convert text to uppercase")
+                                </code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100 cyberpunk-card">
+                            <div class="card-body">
+                                <h5 class="card-title">Configuration Files</h5>
+                                <pre><code class="language-python">
+parser = Argonaut()
+parser.load_config("config.yaml")
+# or
+parser.load_config("config.json")
+                                </code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100 cyberpunk-card">
+                            <div class="card-body">
+                                <h5 class="card-title">Generating Man Pages</h5>
+                                <pre><code class="language-python">
+parser = Argonaut()
+parser.write_man_page("my_tool.1")
+                                </code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100 cyberpunk-card">
+                            <div class="card-body">
+                                <h5 class="card-title">Asynchronous Support</h5>
+                                <pre><code class="language-python">
+from argonaut import Argonaut
+
+parser = Argonaut()
+parser.add("--async-option", help="An async option")
+
+async def main():
+    args = await parser.parse_async()
+    result = await parser.execute_plugin_async("my_plugin", args)
+    print(result)
+
+import asyncio
+asyncio.run(main())
+                                </code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100 cyberpunk-card">
+                            <div class="card-body">
+                                <h5 class="card-title">Environment Variables</h5>
+                                <pre><code class="language-python">
+from argonaut import Argonaut
+
+parser = Argonaut()
+parser.add("--api-key", env_var="API_KEY", help="API key (can be set via API_KEY env var)")
+
+args = parser.parse()
+print(f"API Key: {args['api_key']}")
+                                </code></pre>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -462,7 +607,7 @@ group.add("--quiet", action="store_true", help="Decrease verbosity")
                     <div class="card-body">
                         <h5 class="card-title">File Processing CLI</h5>
                         <pre><code class="language-python">
-from argonaut import Argonaut
+from argonautCli import Argonaut
 
 parser = Argonaut(description="File processing tool")
 parser.add("input_file", help="Path to the input file")
@@ -487,14 +632,15 @@ if args['output']:
 
             <div class="cyberpunk-divider my-5"></div>
 
-            <section id="plugins" class="section-block">
-                <h2 class="section-title neon">Plugins</h2>
+            <section id="plugin-system" class="section-block">
+                <h2 class="section-title neon">Plugin System</h2>
+                <p>ArgøNaut features a powerful plugin system that allows you to extend the functionality of your CLI
+                    applications.</p>
                 <div class="card cyberpunk-card">
                     <div class="card-body">
-                        <h5 class="card-title">Creating and Using Plugins</h5>
+                        <h5 class="card-title">Creating a Plugin</h5>
                         <pre><code class="language-python">
-# my_plugin.py
-from argonaut import Plugin, PluginMetadata, PluginContext
+from argonaut import Plugin, PluginMetadata
 
 class MyPlugin(Plugin):
     @property
@@ -508,23 +654,76 @@ class MyPlugin(Plugin):
             tags=["sample", "demo"]
         )
 
-    def initialize(self, context: PluginContext):
+    def initialize(self, context):
         self.context = context
 
-    def execute(self, args: Dict[str, Any]) -> Any:
-        return "Hello from MyPlugin!"
+    def execute(self, args):
+        return f"Hello from MyPlugin! Args: {args}"
 
-# main.py
-from argonaut import Argonaut
+    async def execute_async(self, args):
+        # Asynchronous execution method
+        return await some_async_operation(args)
 
-parser = Argonaut()
-parser.load_plugin("path.to.my_plugin")
-result = parser.execute_plugin("my_plugin", {})
-print(result)  # Output: Hello from MyPlugin!
+    def on_load(self):
+        print("Plugin loaded")
+
+    def on_unload(self):
+        print("Plugin unloaded")
+
+    def on_command_execution(self, command):
+        print(f"Command '{command}' is being executed")
                         </code></pre>
-                        <button class="btn btn-primary mt-2 copy-btn" data-clipboard-target="#plugin-example">
-                            <i class="far fa-copy"></i> Copy
-                        </button>
+                    </div>
+                </div>
+                <div class="card cyberpunk-card mt-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Plugin Properties</h5>
+                        <table class="table table-dark table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Property</th>
+                                    <th>Required</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>metadata</td>
+                                    <td>Required</td>
+                                    <td>Provides metadata about the plugin</td>
+                                </tr>
+                                <tr>
+                                    <td>initialize</td>
+                                    <td>Required</td>
+                                    <td>Called when the plugin is initialized</td>
+                                </tr>
+                                <tr>
+                                    <td>execute</td>
+                                    <td>Required</td>
+                                    <td>Main execution method for the plugin</td>
+                                </tr>
+                                <tr>
+                                    <td>execute_async</td>
+                                    <td>Optional</td>
+                                    <td>Asynchronous execution method</td>
+                                </tr>
+                                <tr>
+                                    <td>on_load</td>
+                                    <td>Optional</td>
+                                    <td>Called when the plugin is loaded</td>
+                                </tr>
+                                <tr>
+                                    <td>on_unload</td>
+                                    <td>Optional</td>
+                                    <td>Called when the plugin is unloaded</td>
+                                </tr>
+                                <tr>
+                                    <td>on_command_execution</td>
+                                    <td>Optional</td>
+                                    <td>Called before a command is executed</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </section>
@@ -549,6 +748,9 @@ source venv/bin/activate
                             </li>
                             <li>Install development dependencies:
                                 <pre><code class="language-bash">pip install -r requirements.txt</code></pre>
+                            </li>
+                            <li>Run tests:
+                                <pre><code class="language-bash">pytest</code></pre>
                             </li>
                         </ol>
                         <h5 class="card-title mt-4">Contributing</h5>
@@ -586,6 +788,40 @@ source venv/bin/activate
                                 and flexible argument parsing experience while maintaining ease of use.
                             </div>
                         </div>
+                    </div>
+                    <div class="accordion-item cyberpunk-card">
+                        <h2 class="accordion-header" id="faqHeadingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                                Can I use ArgøNaut with asyncio?
+                            </button>
+                        </h2>
+                        <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo"
+                            data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Yes, ArgøNaut now provides built-in support for asyncio. You can use the `parse_async()`
+                                method to parse arguments asynchronously, and `execute_plugin_async()` to run plugins in
+                                an async context. While the core parsing is still synchronous, these methods allow for
+                                seamless integration with async applications.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="changelog" class="section-block">
+                <h2 class="section-title neon">Changelog</h2>
+                <div class="card cyberpunk-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Version 1.2.0 (2024-07-30)</h5>
+                        <ul>
+                            <li>Added asynchronous support for argument parsing and plugin execution</li>
+                            <li>Improved error handling and reporting</li>
+                            <li>Enhanced cross-platform compatibility</li>
+                            <li>Implemented advanced progress visualization and Color Output (Work in progress)</li>
+                            <li>Added support for dynamic argument handling</li>
+                            <li>Improved plugin system with better lifecycle management</li>
+                        </ul>
                     </div>
                 </div>
             </section>

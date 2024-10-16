@@ -354,7 +354,7 @@ document.addEventListener('DOMContentLoaded', () => {
             function handleCommand(command) {
                 switch (command.toLowerCase()) {
                     case 'help':
-                        simulateTyping('Available commands:\r\n  help     - Show this help message\r\n  create   - Create a new Argonaut parser\r\n  add      - Add an argument to the parser\r\n  parse    - Parse arguments\r\n  clear    - Clear the terminal\r\n');
+                        showHelp();
                         break;
                     case 'create':
                         terminal.writeln('Creating a new Argonaut parser...');
@@ -367,6 +367,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     case 'parse':
                         terminal.writeln('Parsing arguments...');
                         terminal.writeln('Arguments parsed successfully.');
+                        break;
+                    case 'async':
+                        terminal.writeln('Demonstrating async support...');
+                        terminal.writeln('Parsing arguments asynchronously...');
+                        setTimeout(() => {
+                            terminal.writeln('Arguments parsed successfully in async context.');
+                        }, 1000);
+                        break;
+                    case 'env':
+                        terminal.writeln('Setting up environment variable...');
+                        terminal.writeln('API_KEY environment variable set.');
                         break;
                     case 'clear':
                         terminal.clear();
@@ -692,4 +703,61 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    function initAsyncSupportHighlight() {
+        const asyncSupportSection = document.createElement('div');
+        asyncSupportSection.classList.add('async-support');
+        asyncSupportSection.innerHTML = `
+            <h4><i class="fas fa-bolt"></i> New: Async Support</h4>
+            <p>ArgøNaut now supports asynchronous operations with asyncio. Use <code>parse_async()</code> and <code>execute_plugin_async()</code> for seamless integration with async applications.</p>
+        `;
+
+        const advancedSection = document.getElementById('advanced');
+        if (advancedSection) {
+            advancedSection.appendChild(asyncSupportSection);
+        }
+    }
+
+    function enhanceCodeBlocks() {
+        document.querySelectorAll('pre code').forEach((block) => {
+            const language = block.classList[0].split('-')[1];
+            block.parentElement.setAttribute('data-language', language);
+        });
+    }
+
+    // Update the existing DOMContentLoaded event listener
+    document.addEventListener('DOMContentLoaded', () => {
+        // Call new functions
+        initAsyncSupportHighlight();
+        enhanceCodeBlocks();
+    });
+
+    // Update the custom CLI to include new ArgøNaut features
+    function handleCommand(command) {
+        switch (command.toLowerCase()) {
+            case 'async':
+                terminal.writeln('Demonstrating async support...');
+                terminal.writeln('Parsing arguments asynchronously...');
+                setTimeout(() => {
+                    terminal.writeln('Arguments parsed successfully in async context.');
+                }, 1000);
+                break;
+            case 'env':
+                terminal.writeln('Setting up environment variable...');
+                terminal.writeln('API_KEY environment variable set.');
+                break;
+        }
+    }
+
+    // Update the help command to include new features
+    function showHelp() {
+        terminal.writeln('Available commands:');
+        terminal.writeln('  help     - Show this help message');
+        terminal.writeln('  create   - Create a new Argonaut parser');
+        terminal.writeln('  add      - Add an argument to the parser');
+        terminal.writeln('  parse    - Parse arguments');
+        terminal.writeln('  async    - Demonstrate async support');
+        terminal.writeln('  env      - Set up environment variable');
+        terminal.writeln('  clear    - Clear the terminal');
+    }
 });

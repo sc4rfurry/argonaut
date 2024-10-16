@@ -1,0 +1,744 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="argonaut_docs.xslt"?>
+<argonaut-documentation>
+    <introduction>
+        <title>ArgøNaut: Advanced Argument Parsing Library</title>
+        <description>
+            ArgøNaut is a sophisticated and flexible command-line argument parsing library for Python applications. It offers a wide range of features, from basic argument handling to advanced plugin systems and cross-platform compatibility.
+        </description>
+        <key-features>
+            <feature>Intuitive API for defining and parsing arguments</feature>
+            <feature>Support for subcommands and nested command structures</feature>
+            <feature>Robust plugin system for extensibility</feature>
+            <feature>Cross-platform compatibility (Windows, macOS, Linux)</feature>
+            <feature>Advanced input sanitization and error handling</feature>
+            <feature>Customizable help generation and formatting</feature>
+            <feature>Shell completion script generation for multiple shells</feature>
+            <feature>Progress bar and colored output capabilities</feature>
+            <feature>Configuration file support (YAML, JSON)</feature>
+            <feature>Environment variable integration</feature>
+            <feature>Automatic man page generation</feature>
+        </key-features>
+    </introduction>
+
+    <installation>
+        <step>
+            <instruction>Install ArgøNaut using pip:</instruction>
+            <code>pip install argonautCli</code>
+        </step>
+        <step>
+            <instruction>Import ArgøNaut in your Python script:</instruction>
+            <code>from argonaut import Argonaut</code>
+        </step>
+    </installation>
+
+    <basic-usage>
+        <section name="Creating a Simple CLI">
+            <description>Create a basic command-line interface with ArgøNaut:</description>
+            <example>
+                <code>
+                    <![CDATA[
+from argonaut import Argonaut
+
+parser = Argonaut(description="My awesome CLI tool")
+parser.add("--name", help="Your name")
+parser.add("--age", type=int, help="Your age")
+
+args = parser.parse()
+print(f"Hello, {args['name']}! You are {args['age']} years old.")
+                    ]]>
+                </code>
+            </example>
+        </section>
+        <section name="Adding Arguments">
+            <description>Add various types of arguments to your CLI:</description>
+            <example>
+                <code>
+                    <![CDATA[
+parser.add("--flag", action="store_true", help="A boolean flag")
+parser.add("--choice", choices=["option1", "option2"], help="A choice argument")
+parser.add("positional", help="A positional argument")
+                    ]]>
+                </code>
+            </example>
+        </section>
+        <section name="Parsing Arguments">
+            <description>Parse the command-line arguments:</description>
+            <example>
+                <code>
+                    <![CDATA[
+args = parser.parse()
+print(args)
+                    ]]>
+                </code>
+            </example>
+        </section>
+        <section name="Handling Errors">
+            <description>Handle parsing errors gracefully:</description>
+            <example>
+                <code>
+                    <![CDATA[
+from argonaut.exceptions import ArgonautError
+
+try:
+    args = parser.parse()
+except ArgonautError as e:
+    print(f"Error: {e}")
+    sys.exit(1)
+                    ]]>
+                </code>
+            </example>
+        </section>
+    </basic-usage>
+
+    <advanced-features>
+        <section name="Subcommands">
+            <description>Create nested command structures:</description>
+            <example>
+                <code>
+                    <![CDATA[
+commit = parser.add_subcommand("commit", description="Record changes to the repository")
+commit.add("--message", "-m", help="Commit message")
+
+push = parser.add_subcommand("push", description="Update remote refs along with associated objects")
+push.add("--force", "-f", action="store_true", help="Force push")
+                    ]]>
+                </code>
+            </example>
+        </section>
+        <section name="Argument Groups">
+            <description>Organize related arguments:</description>
+            <example>
+                <code>
+                    <![CDATA[
+group = parser.add_group("Authentication")
+group.add("--username", help="Your username")
+group.add("--password", help="Your password")
+                    ]]>
+                </code>
+            </example>
+        </section>
+        <section name="Mutually Exclusive Groups">
+            <description>Define mutually exclusive arguments:</description>
+            <example>
+                <code>
+                    <![CDATA[
+group = parser.add_mutually_exclusive_group()
+group.add("--quiet", action="store_true", help="Suppress output")
+group.add("--verbose", action="store_true", help="Increase output verbosity")
+                    ]]>
+                </code>
+            </example>
+        </section>
+        <section name="Custom Actions">
+            <description>Define custom actions for arguments:</description>
+            <example>
+                <code>
+                    <![CDATA[
+def custom_action(value):
+    return value.upper()
+
+parser.add("--custom", action=custom_action, help="Apply a custom action")
+                    ]]>
+                </code>
+            </example>
+        </section>
+        <section name="Dynamic Arguments">
+            <description>Add arguments dynamically at runtime:</description>
+            <example>
+                <code>
+                    <![CDATA[
+parser.add_dynamic_argument("--dynamic", help="A dynamically added argument")
+                    ]]>
+                </code>
+            </example>
+        </section>
+        <section name="Configuration Files">
+            <description>Load arguments from configuration files:</description>
+            <example>
+                <code>
+                    <![CDATA[
+parser.load_config("config.yaml")
+# or
+parser.load_config("config.json")
+                    ]]>
+                </code>
+            </example>
+        </section>
+        <section name="Environment Variables">
+            <description>Set default values from environment variables:</description>
+            <example>
+                <code>
+                    <![CDATA[
+parser.add("--api-key", env_var="API_KEY", help="API key (can be set via API_KEY env var)")
+                    ]]>
+                </code>
+            </example>
+        </section>
+        <section name="Async Support">
+            <description>Use ArgøNaut with asyncio for asynchronous applications:</description>
+            <example>
+                <code>
+                    <![CDATA[
+import asyncio
+from argonaut import Argonaut
+
+async def main():
+    parser = Argonaut(description="Async CLI example")
+    parser.add("--name", help="Your name")
+    
+    args = await parser.parse_async()
+    print(f"Hello, {args['name']}!")
+
+    # Async plugin execution
+    result = await parser.execute_plugin_async("my_async_plugin", args)
+    print(f"Plugin result: {result}")
+
+if __name__ == "__main__":
+    asyncio.run(main())
+                    ]]>
+                </code>
+            </example>
+        </section>
+    </advanced-features>
+
+    <input-handling-and-validation>
+        <section name="Input Sanitization">
+            <description>Sanitize user input to prevent security vulnerabilities:</description>
+            <example>
+                <code>
+                    <![CDATA[
+from argonaut.input_sanitizer import sanitize_input, sanitize_filename, sanitize_path
+
+safe_input = sanitize_input(user_input)
+safe_filename = sanitize_filename(user_filename)
+safe_path = sanitize_path(user_path)
+                    ]]>
+                </code>
+            </example>
+        </section>
+        <section name="Custom Validators">
+            <description>Add custom validation to arguments:</description>
+            <example>
+                <code>
+                    <![CDATA[
+def validate_positive(value):
+    if value <= 0:
+        raise ValueError("Value must be positive")
+    return value
+
+parser.add("--positive", type=int, validator=validate_positive, help="A positive integer")
+                    ]]>
+                </code>
+            </example>
+        </section>
+        <section name="Type Conversion">
+            <description>Automatically convert argument types:</description>
+            <example>
+                <code>
+                    <![CDATA[
+parser.add("--number", type=float, help="A floating-point number")
+                    ]]>
+                </code>
+            </example>
+        </section>
+        <section name="Choices and Restrictions">
+            <description>Limit argument values to a set of choices:</description>
+            <example>
+                <code>
+                    <![CDATA[
+parser.add("--color", choices=["red", "green", "blue"], help="Choose a color")
+                    ]]>
+                </code>
+            </example>
+        </section>
+    </input-handling-and-validation>
+
+    <output-and-formatting>
+        <section name="Colored Output">
+            <description>Use colored output for better readability:</description>
+            <example>
+                <code>
+                    <![CDATA[
+parser.colored_output.print("Success!", color="green")
+parser.colored_output.print("Warning!", color="yellow")
+parser.colored_output.print("Error!", color="red")
+                    ]]>
+                </code>
+            </example>
+        </section>
+        <section name="Progress Bars">
+            <description>Display progress for long-running operations:</description>
+            <example>
+                <code>
+                    <![CDATA[
+progress = parser.show_progress_bar(total=100, description="Processing")
+for i in range(100):
+    # Do some work
+    progress.update(i + 1)
+                    ]]>
+                </code>
+            </example>
+        </section>
+        <section name="Custom Help Formatting">
+            <description>Customize the help output format:</description>
+            <example>
+                <code>
+                    <![CDATA[
+def custom_help_formatter(parser):
+    # Your custom formatting logic here
+    return formatted_help_string
+
+parser.set_custom_help_formatter(custom_help_formatter)
+                    ]]>
+                </code>
+            </example>
+        </section>
+        <section name="Generating Man Pages">
+            <description>Automatically generate man pages for your CLI tool:</description>
+            <example>
+                <code>
+                    <![CDATA[
+parser.write_man_page("my_tool.1")
+                    ]]>
+                </code>
+            </example>
+        </section>
+    </output-and-formatting>
+
+    <plugin-system>
+        <section name="Creating Plugins">
+            <description>Create a plugin for ArgøNaut:</description>
+            <example>
+                <code>
+                    <![CDATA[
+from argonaut import Plugin, PluginMetadata
+
+class MyPlugin(Plugin):
+    @property
+    def metadata(self):
+        return PluginMetadata(
+            name="my_plugin",
+            version="1.0.0",
+            description="A sample plugin",
+            author="Your Name",
+            website="https://example.com"
+        )
+
+    def initialize(self, context):
+        self.context = context
+
+    def execute(self, args):
+        print("Executing my plugin!")
+                    ]]>
+                </code>
+            </example>
+        </section>
+        <section name="Loading Plugins">
+            <description>Load a plugin in your main application:</description>
+            <example>
+                <code>
+                    <![CDATA[
+parser.load_plugin("path.to.my_plugin")
+                    ]]>
+                </code>
+            </example>
+        </section>
+        <section name="Plugin Lifecycle">
+            <description>Implement plugin lifecycle methods:</description>
+            <example>
+                <code>
+                    <![CDATA[
+class MyPlugin(Plugin):
+    def on_load(self):
+        print("Plugin loaded")
+
+    def on_unload(self):
+        print("Plugin unloaded")
+
+    def on_command_execution(self, command):
+        print(f"Executing command: {command}")
+                    ]]>
+                </code>
+            </example>
+        </section>
+        <section name="Plugin Dependencies">
+            <description>Specify plugin dependencies:</description>
+            <example>
+                <code>
+                    <![CDATA[
+class MyPlugin(Plugin):
+    @property
+    def dependencies(self):
+        return ["requests", "pyyaml"]
+                    ]]>
+                </code>
+            </example>
+        </section>
+        <section name="Plugin Configuration">
+            <description>Load and use plugin-specific configuration:</description>
+            <example>
+                <code>
+                    <![CDATA[
+class MyPlugin(Plugin):
+    def initialize(self, context):
+        self.load_config("my_plugin_config.yaml")
+        api_key = self.get_config_value("api_key")
+                    ]]>
+                </code>
+            </example>
+        </section>
+        <section name="Plugin Hooks">
+            <description>Use hooks to extend functionality:</description>
+            <example>
+                <code>
+                    <![CDATA[
+class MyPlugin(Plugin):
+    def initialize(self, context):
+        self.register_hook("before_execute", self.before_execute)
+
+    def before_execute(self, command):
+        print(f"About to execute: {command}")
+                    ]]>
+                </code>
+            </example>
+        </section>
+    </plugin-system>
+
+    <cross-platform-compatibility>
+        <section name="Windows-Specific Features">
+            <description>Handle Windows-specific paths and commands:</description>
+            <example>
+                <code>
+                    <![CDATA[
+import sys
+from pathlib import Path
+
+if sys.platform == "win32":
+    config_path = Path.home() / "AppData" / "Roaming" / "MyApp" / "config.ini"
+else:
+    config_path = Path.home() / ".config" / "MyApp" / "config.ini"
+                    ]]>
+                </code>
+            </example>
+        </section>
+        <section name="Unix-Specific Features">
+            <description>Utilize Unix-specific features when available:</description>
+            <example>
+                <code>
+                    <![CDATA[
+import os
+
+if os.name == "posix":
+    os.setpgid(0, 0)  # Create a new process group
+                    ]]>
+                </code>
+            </example>
+        </section>
+        <section name="Shell Completion">
+            <description>Generate shell completion scripts for various shells:</description>
+            <example>
+                <code>
+                    <![CDATA[
+parser.add_completion("bash")
+parser.add_completion("zsh")
+parser.add_completion("fish")
+parser.add_completion("powershell")
+                    ]]>
+                </code>
+            </example>
+        </section>
+    </cross-platform-compatibility>
+
+    <error-handling-and-logging>
+        <section name="Custom Exceptions">
+            <description>Use custom exceptions for better error handling:</description>
+            <example>
+                <code>
+                    <![CDATA[
+from argonaut.exceptions import (
+    ArgonautError,
+    ArgonautValidationError,
+    ArgonautTypeError,
+    ArgonautValueError,
+    ArgonautUnknownArgumentError,
+    PluginError,
+    ConfigurationError,
+    ParsingError,
+    EnvironmentVariableError,
+    InteractiveModeError
+)
+
+try:
+    # Your code here
+except ArgonautValidationError as e:
+    print(f"Validation error: {e}")
+except ArgonautError as e:
+    print(f"ArgøNaut error: {e}")
+                    ]]>
+                </code>
+            </example>
+        </section>
+        <section name="Logging System">
+            <description>Use the built-in logging system:</description>
+            <example>
+                <code>
+                    <![CDATA[
+parser.logger.info("This is an info message")
+parser.logger.warning("This is a warning message")
+parser.logger.error("This is an error message")
+                    ]]>
+                </code>
+            </example>
+        </section>
+        <section name="Debugging Tools">
+            <description>Enable verbose output for debugging:</description>
+            <example>
+                <code>
+                    <![CDATA[
+from argonaut.logging import LogLevel
+
+parser.set_log_level(LogLevel.DEBUG)
+                    ]]>
+                </code>
+            </example>
+        </section>
+    </error-handling-and-logging>
+
+    <best-practices-and-tips>
+        <section name="Designing User-Friendly CLIs">
+            <tip>Use clear and concise argument names and help messages</tip>
+            <tip>Group related arguments together</tip>
+            <tip>Provide sensible default values where appropriate</tip>
+            <tip>Use subcommands for complex applications with multiple functions</tip>
+        </section>
+        <section name="Performance Optimization">
+            <tip>Use lazy loading for plugins to improve startup time</tip>
+            <tip>Minimize the use of external dependencies</tip>
+            <tip>Profile your code to identify performance bottlenecks</tip>
+        </section>
+        <section name="Security Considerations">
+            <tip>Always sanitize user input using the provided sanitization functions</tip>
+            <tip>Use secure methods for handling sensitive data (e.g., passwords)</tip>
+            <tip>Implement proper access controls for plugin systems</tip>
+            <tip>Regularly update dependencies to patch security vulnerabilities</tip>
+        </section>
+    </best-practices-and-tips>
+
+    <api-reference>
+        <class name="Argonaut">
+            <method name="add">
+                <description>Add an argument to the parser</description>
+                <parameters>
+                    <param name="*names">Argument names (e.g., "--verbose", "-v")</param>
+                    <param name="**kwargs">Additional argument properties</param>
+                </parameters>
+                <returns>Argument object</returns>
+            </method>
+            <method name="parse">
+                <description>Parse command-line arguments</description>
+                <parameters>
+                    <param name="args">Optional list of arguments to parse</param>
+                    <param name="ignore_unknown">Whether to ignore unknown arguments</param>
+                </parameters>
+                <returns>Dictionary of parsed arguments</returns>
+            </method>
+            <method name="add_subcommand">
+                <description>Add a subcommand to the parser</description>
+                <parameters>
+                    <param name="name">Name of the subcommand</param>
+                    <param name="**kwargs">Additional subcommand properties</param>
+                </parameters>
+                <returns>SubCommand object</returns>
+            </method>
+            <method name="load_plugin">
+                <description>Load a plugin</description>
+                <parameters>
+                    <param name="module_path">Path to the plugin module</param>
+                </parameters>
+            </method>
+            <method name="add_completion">
+                <description>Add shell completion for the specified shell</description>
+                <parameters>
+                    <param name="shell">Shell name (bash, zsh, fish, or powershell)</param>
+                    <param name="directory">Optional directory to save the completion script</param>
+                </parameters>
+            </method>
+        </class>
+        <class name="Plugin">
+            <method name="initialize">
+                <description>Initialize the plugin</description>
+                <parameters>
+                    <param name="context">PluginContext object</param>
+                </parameters>
+            </method>
+            <method name="execute">
+                <description>Execute the plugin</description>
+                <parameters>
+                    <param name="args">Dictionary of parsed arguments</param>
+                </parameters>
+                <returns>Plugin execution result</returns>
+            </method>
+            <method name="on_load">
+                <description>Called when the plugin is loaded</description>
+            </method>
+            <method name="on_unload">
+                <description>Called when the plugin is unloaded</description>
+            </method>
+            <method name="on_command_execution">
+                <description>Called before a command is executed</description>
+                <parameters>
+                    <param name="command">Name of the command being executed</param>
+                </parameters>
+            </method>
+        </class>
+    </api-reference>
+
+    <examples>
+        <example name="Simple CLI Tool">
+            <description>A basic CLI tool using ArgøNaut</description>
+            <code>
+                <![CDATA[
+from argonaut import Argonaut
+
+parser = Argonaut(description="A simple greeting tool")
+parser.add("--name", help="Your name")
+parser.add("--greeting", default="Hello", help="Greeting to use")
+
+args = parser.parse()
+print(f"{args['greeting']}, {args['name']}!")
+                ]]>
+            </code>
+        </example>
+        <example name="Git-like CLI">
+            <description>A more complex CLI with subcommands, similar to Git</description>
+            <code>
+                <![CDATA[
+from argonaut import Argonaut
+
+parser = Argonaut(description="Git-like version control system")
+
+# Add global options
+parser.add("--verbose", "-v", action="store_true", help="Enable verbose output")
+
+# Add subcommands
+commit = parser.add_subcommand("commit", description="Record changes to the repository")
+commit.add("--message", "-m", required=True, help="Commit message")
+
+push = parser.add_subcommand("push", description="Update remote refs along with associated objects")
+push.add("--remote", default="origin", help="Remote repository")
+push.add("--branch", default="master", help="Branch to push")
+
+args = parser.parse()
+
+if args["subcommand"] == "commit":
+    print(f"Committing with message: {args['message']}")
+elif args["subcommand"] == "push":
+    print(f"Pushing to {args['remote']}/{args['branch']}")
+
+if args["verbose"]:
+    print("Verbose output enabled")
+                ]]>
+            </code>
+        </example>
+    </examples>
+
+    <troubleshooting>
+        <common-issue>
+            <problem>Unknown argument error</problem>
+            <solution>
+                <step>Check for typos in argument names</step>
+                <step>Ensure all arguments are properly defined using the `add` method</step>
+                <step>Verify that you're not using any reserved argument names</step>
+            </solution>
+        </common-issue>
+        <common-issue>
+            <problem>Plugin fails to load</problem>
+            <solution>
+                <step>Verify that the plugin module is in the Python path</step>
+                <step>Check that the plugin class inherits from the `Plugin` base class</step>
+                <step>Ensure all required methods (e.g., `metadata`, `initialize`, `execute`) are implemented</step>
+                <step>Check for any missing dependencies</step>
+            </solution>
+        </common-issue>
+    </troubleshooting>
+
+    <faq>
+        <question>
+            <q>How do I add a positional argument?</q>
+            <a>Use the `add` method without specifying a prefix (e.g., `parser.add("filename")`). Positional arguments are processed in the order they are added.</a>
+        </question>
+        <question>
+            <q>Can I use ArgøNaut with asyncio?</q>
+            <a>Yes, ArgøNaut now provides built-in support for asyncio. You can use the `parse_async()` method to parse arguments asynchronously, and `execute_plugin_async()` to run plugins in an async context. While the core parsing is still synchronous, these methods allow for seamless integration with async applications.</a>
+        </question>
+    </faq>
+
+    <contributing>
+        <section name="Development Setup">
+            <step>Clone the repository: `git clone https://github.com/sc4rfurry/argonaut.git`</step>
+            <step>Create a virtual environment: `python -m venv venv`</step>
+            <step>Activate the virtual environment:
+                <substep>On Windows: `venv\Scripts\activate`</substep>
+                <substep>On Unix or MacOS: `source venv/bin/activate`</substep>
+            </step>
+            <step>Install development dependencies: `pip install -r requirements-dev.txt`</step>
+        </section>
+        <section name="Coding Standards">
+            <item>Follow PEP 8 style guide</item>
+            <item>Use type hints for all function and method signatures</item>
+            <item>Write docstrings for all public classes and methods</item>
+            <item>Maintain test coverage above 90%</item>
+        </section>
+        <section name="Testing">
+            <instruction>Run tests using pytest: `pytest tests/`</instruction>
+            <instruction>Ensure all tests pass before submitting a pull request</instruction>
+        </section>
+        <section name="Submitting Pull Requests">
+            <step>Fork the repository on GitHub</step>
+            <step>Create a new branch for your feature or bug fix</step>
+            <step>Make your changes and commit them with clear, descriptive commit messages</step>
+            <step>Push your changes to your fork</step>
+            <step>Submit a pull request to the main repository</step>
+            <step>Respond to any feedback or questions during the review process</step>
+        </section>
+    </contributing>
+
+    <changelog>
+        <version number="1.2.0">
+            <release-date>2024-07-30</release-date>
+            <changes>
+                <item>Added asynchronous support for argument parsing and plugin execution</item>
+                <item>Improved error handling and reporting</item>
+                <item>Enhanced cross-platform compatibility</item>
+                <item>Implemented advanced progress visualization and Color Output (Work in progress)</item>
+                <item>Added support for dynamic argument handling</item>
+                <item>Improved plugin system with better lifecycle management</item>
+            </changes>
+        </version>
+        <version number="1.1.0">
+            <release-date>2024-06-15</release-date>
+            <changes>
+                <item>Added support for configuration files</item>
+                <item>Improved cross-platform compatibility</item>
+                <item>Enhanced error handling and reporting</item>
+            </changes>
+        </version>
+        <version number="1.0.0">
+            <release-date>2024-05-01</release-date>
+            <changes>
+                <item>Initial release of ArgøNaut</item>
+                <item>Basic argument parsing functionality</item>
+                <item>Support for subcommands</item>
+                <item>Plugin system implementation</item>
+            </changes>
+        </version>
+    </changelog>
+
+    <license>
+        <name>MIT License</name>
+        <summary>
+            Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the conditions outlined in the LICENSE file.
+        </summary>
+    </license>
+</argonaut-documentation>

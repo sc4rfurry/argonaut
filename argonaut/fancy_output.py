@@ -1,3 +1,5 @@
+# /usr/bin/env python3
+# -*- coding: utf-8 -*-
 import sys
 import os
 from typing import Dict
@@ -32,28 +34,47 @@ class ColoredOutput:
         }
 
     def _supports_color(self):
-        """
-        Returns True if the running system's terminal supports color,
-        and False otherwise.
-        """
-        plat = sys.platform
-        supported_platform = plat != "Pocket PC" and (
-            plat != "win32" or "ANSICON" in os.environ
+        # Check for NO_COLOR environment variable
+        if "NO_COLOR" in os.environ:
+            return False
+
+        # Check for FORCE_COLOR environment variable
+        if "FORCE_COLOR" in os.environ:
+            return True
+
+        # Windows detection
+        if sys.platform == "win32":
+            return self._supports_color_win()
+
+        # Unix-like systems
+        return self._supports_color_unix()
+
+    def _supports_color_win(self):
+        try:
+            import winreg
+        except ImportError:
+            return False
+        try:
+            reg_key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, r"Console")
+            return winreg.QueryValueEx(reg_key, "VirtualTerminalLevel")[0] == 1
+        except WindowsError:
+            return False
+
+    def _supports_color_unix(self):
+        return sys.stdout.isatty() and (
+            "COLORTERM" in os.environ
+            or os.environ.get("TERM")
+            in [
+                "xterm",
+                "xterm-color",
+                "xterm-256color",
+                "linux",
+                "screen",
+                "screen-256color",
+                "tmux",
+                "tmux-256color",
+            ]
         )
-
-        # isatty is not always implemented, #6223.
-        is_a_tty = hasattr(sys.stdout, "isatty") and sys.stdout.isatty()
-
-        if plat == "win32":
-            try:
-                import ctypes
-
-                kernel32 = ctypes.windll.kernel32
-                return kernel32.GetConsoleMode(kernel32.GetStdHandle(-11)) != 0
-            except:
-                return False
-
-        return supported_platform and is_a_tty
 
     def set_color_scheme(self, color_scheme: Dict[str, str]):
         if self.use_color:
@@ -86,3 +107,6 @@ class ColoredOutput:
 
     def custom_color(self, text: str, color: str) -> str:
         return self._colorize(text, color)
+
+    def print(self, text: str, color: str = "reset") -> None:
+        print(self._colorize(text, color))

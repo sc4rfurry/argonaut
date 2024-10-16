@@ -1,17 +1,32 @@
+# /usr/bin/env python3
+# -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
+import sys
+
+# Define optional dependencies
+extras_require = {
+    "windows": ["pyreadline3"],
+}
+
+# Define conditional dependencies
+install_requires = [
+    "pyyaml", "asyncio", 
+]
+
+if sys.platform == "win32":
+    install_requires.append("pyreadline3")
 
 setup(
     name="argonautCli",
-    version="1.0.0",
+    version="1.2.0",
     packages=find_packages(),
-    install_requires=[
-        "pyyaml",
-    ],
+    install_requires=install_requires,
     extras_require={
         "test": [
             "pytest",
             "pytest-cov",
         ],
+        **extras_require,
     },
     author="sc4rfurry",
     author_email="akalucifr@protonmail.ch",

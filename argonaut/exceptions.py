@@ -1,4 +1,7 @@
+# /usr/bin/env python3
+# -*- coding: utf-8 -*-
 from typing import List
+import traceback
 
 
 class ArgonautBaseException(Exception):
@@ -16,6 +19,14 @@ class ArgonautError(ArgonautBaseException):
 
     def __str__(self):
         return f"ArgonautError: {self.message}"
+
+    def get_formatted_error(self, include_traceback: bool = False) -> str:
+        error_msg = f"{self.__class__.__name__}: {self.message}"
+        if include_traceback:
+            error_msg += (
+                f"\n\nTraceback:\n{''.join(traceback.format_tb(self.__traceback__))}"
+            )
+        return error_msg
 
 
 class ArgonautValidationError(ArgonautError):
@@ -123,3 +134,102 @@ class InteractiveModeError(ArgonautError):
         self.error_message = error_message
         message = f"Error in interactive mode: {error_message}"
         super().__init__(message)
+
+
+class ArgonautErrorHandler:
+    @staticmethod
+    def handle_error(error: ArgonautError, parser: "Argonaut"):
+        if isinstance(error, ArgonautUnknownArgumentError):
+            print(f"Unknown argument(s): {', '.join(error.unknown_args)}")
+            suggestions = parser._suggest_corrections(error.unknown_args)
+            if suggestions:
+                print("Did you mean one of these?")
+                for suggestion in suggestions:
+                    print(f"  {suggestion}")
+            print("\nTip: Use '--help' to see all available arguments.")
+        elif isinstance(error, ArgonautValidationError):
+            print(f"Validation error for argument '{error.argument_name}': {error}")
+            arg = parser.get_argument(error.argument_name)
+            if arg and arg.help:
+                print(f"Help for '{error.argument_name}': {arg.help}")
+            if arg and arg.choices:
+                print(f"Allowed values: {', '.join(map(str, arg.choices))}")
+        elif isinstance(error, ArgonautTypeError):
+            print(
+                f"Type error for argument '{error.argument_name}': Expected {error.expected_type}, got {error.received_type}"
+            )
+            print(
+                f"Tip: Make sure you're providing the correct type of value for this argument."
+            )
+        elif isinstance(error, PluginError):
+            print(f"Plugin error: {error}")
+            if isinstance(error, PluginLoadError):
+                print(
+                    f"Tip: Check if the plugin file exists and is in the correct location."
+                )
+            elif isinstance(error, PluginExecutionError):
+                print(f"Tip: Check the plugin's code for any issues or exceptions.")
+        else:
+            print(f"Error: {error}")
+
+        print(
+            f"\nUse '{parser.prog} --help' for more information on how to use this command."
+        )
+        if parser.debug:
+            print("\nDebug information:")
+            print(error.get_formatted_error(include_traceback=True))
+
+
+class PluginLoadError(PluginError):
+    """Raised when there's an error loading a plugin."""
+
+    pass
+
+
+class ArgumentValidationError(ArgonautError):
+    """Raised when argument validation fails."""
+
+    pass
+
+
+class PluginConfigurationError(ArgonautError):
+    """Raised when there's an error in plugin configuration."""
+
+    pass
+
+
+# Add more specific exception types
+class ArgonautParsingError(ArgonautError):
+    """Raised when there's a general parsing error."""
+
+
+class ArgonautMissingArgumentError(ArgonautError):
+    """Raised when a required argument is missing."""
+
+
+class ArgonautInvalidChoiceError(ArgonautError):
+    """Raised when an invalid choice is provided for an argument."""
+
+
+# ... (other specific exception types)
+
+
+class ArgonautDependencyError(ArgonautError):
+    """Raised when a dependency between arguments is not satisfied."""
+
+    pass
+
+
+class ArgonautConflictError(ArgonautError):
+    """Raised when conflicting arguments are provided."""
+
+    pass
+
+
+# Add these new exception classes
+class PluginLoadError(PluginError):
+    pass
+
+
+class PluginExecutionError(PluginError):
+    pass

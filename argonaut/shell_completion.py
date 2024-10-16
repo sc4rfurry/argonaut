@@ -1,6 +1,9 @@
+# /usr/bin/env python3
+# -*- coding: utf-8 -*-
 import os
 from typing import List, Any
 import sys
+from pathlib import Path
 
 
 def generate_completion_script(shell: str, parser: Any) -> str:
@@ -10,6 +13,8 @@ def generate_completion_script(shell: str, parser: Any) -> str:
         return _generate_zsh_completion(parser)
     elif shell == "fish":
         return _generate_fish_completion(parser)
+    elif shell == "powershell":
+        return _generate_powershell_completion(parser)
     else:
         raise ValueError(f"Unsupported shell: {shell}")
 
@@ -23,6 +28,7 @@ _argonaut_completion()
     cur="${{COMP_WORDS[COMP_CWORD]}}"
     prev="${{COMP_WORDS[COMP_CWORD-1]}}"
     opts="{' '.join(_get_all_options(parser))}"
+    subcommands="{' '.join(parser.subcommands.keys())}"
 
     if [[ ${{cur}} == -* ]] ; then
         COMPREPLY=( $(compgen -W "${{opts}}" -- ${{cur}}) )
@@ -32,6 +38,11 @@ _argonaut_completion()
     case "${{prev}}" in
 {_generate_option_cases(parser)}
     esac
+
+    if [[ ${{COMP_CWORD}} -eq 1 ]] ; then
+        COMPREPLY=( $(compgen -W "${{subcommands}}" -- ${{cur}}) )
+        return 0
+    fi
 
     COMPREPLY=( $(compgen -W "${{opts}}" -- ${{cur}}) )
     return 0
@@ -72,6 +83,19 @@ end
 {_generate_fish_options(parser)}
 
 {_generate_fish_subcommands(parser)}
+"""
+    return script
+
+
+def _generate_powershell_completion(parser: Any) -> str:
+    script = f"""
+Register-ArgumentCompleter -Native -CommandName {Path(sys.argv[0]).name} -ScriptBlock {{
+    param($wordToComplete, $commandAst, $cursorPosition)
+    $opts = @({', '.join(f"'{opt}'" for opt in _get_all_options(parser))})
+    $opts | Where-Object {{ $_ -like "$wordToComplete*" }} | ForEach-Object {{
+        [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
+    }}
+}}
 """
     return script
 
